@@ -41,10 +41,10 @@ server.on("connection", (ws) => {
 
       ws.roomCode = code;
 
-      ws.send(JSON.stringify({
-        type: "roomCreated",
-        code: code
-      }));
+      ws.send("ROOM_CREATED:" + code);
+    
+        
+  
 
       return;
     }
@@ -74,11 +74,13 @@ server.on("connection", (ws) => {
 
       ws.roomCode = data.code;
 
-      room.players.forEach(player => {
-        player.send(JSON.stringify({
-          type: "gameStart"
-        }));
-      });
+      
+        
+          room.players.forEach(player => {
+    player.send("GAME_START");
+});
+        
+      
 
       return;
     }
@@ -117,9 +119,9 @@ server.on("connection", (ws) => {
 
       if (player.readyState === WebSocket.OPEN) {
 
-        player.send(JSON.stringify({
-          type: "playerLeft"
-        }));
+        player.send("PLAYER_LEFT");
+          
+        
 
       }
 
